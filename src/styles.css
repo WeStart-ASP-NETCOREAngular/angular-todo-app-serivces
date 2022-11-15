@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+.btn-options {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+.btn-check:checked + .btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check) + .btn:active {
+  border: none;
+}

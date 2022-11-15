@@ -1,0 +1,11 @@
+<ul *ngIf="tasks.length !== 0; else noTasks" class="list-group">
+  <app-todo-item
+    *ngFor="let task of tasks"
+    [task]="task"
+    (taskEdit)="onSelectEdit($event)"
+    (taskDelete)="onSelectDelete($event)"
+  ></app-todo-item>
+</ul>
+<ng-template #noTasks>
+  <div class="alert alert-success" role="alert">No tasks for today!</div>
+</ng-template>
