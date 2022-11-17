@@ -8,6 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import ITodo from 'src/app/models/ITodo';
+import { TaskService } from 'src/app/services/task.service';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -18,31 +19,29 @@ import { v4 as uuidv4 } from 'uuid';
 export class TodoFormComponent implements OnInit, OnChanges {
   taskTitle = '';
   isEditing = false;
-  @Output() onAddTask = new EventEmitter<ITodo>();
-  @Output() onUpdateTask = new EventEmitter<ITodo>();
-  @Output() onClearForm = new EventEmitter<void>();
-  @Input() taskSelected?: ITodo;
+  taskSelected?: ITodo;
 
-  constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-    if (changes['taskSelected'].currentValue != undefined) {
-      this.taskTitle = changes['taskSelected'].currentValue.title;
-      this.taskSelected = changes['taskSelected'].currentValue;
-    }
-    this.isEditing = this.taskTitle !== '' ? true : false;
+  constructor(private taskService: TaskService) {}
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  ngOnInit(): void {
+    console.log('TodoFormComponent : ngOnInit');
+    this.taskService.taskSeleced.subscribe((todo: ITodo) => {
+      console.log('event emitted:', todo);
+      this.taskSelected = todo;
+      this.taskTitle = this.taskSelected.title;
+      this.isEditing = true;
+    });
   }
-
-  ngOnInit(): void {}
 
   onAddUpdateTask() {
     if (!this.taskTitle) return;
     if (!this.isEditing) {
-      this.onAddTask.emit({ id: uuidv4(), title: this.taskTitle });
+      this.taskService.addTask({ id: uuidv4(), title: this.taskTitle });
     } else {
       if (this.taskSelected != undefined) {
         console.log('Edited', this.taskSelected.id);
-        this.onUpdateTask.emit({
+        this.taskService.updateTask({
           id: this.taskSelected.id,
           title: this.taskTitle,
         });
@@ -53,9 +52,7 @@ export class TodoFormComponent implements OnInit, OnChanges {
   }
 
   onClear() {
-    this.onClearForm.emit();
     this.taskTitle = '';
-    // this.taskSelected = undefined;
     this.isEditing = false;
   }
 }

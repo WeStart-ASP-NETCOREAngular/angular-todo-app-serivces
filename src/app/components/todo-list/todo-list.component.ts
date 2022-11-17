@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import ITodo from 'src/app/models/ITodo';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -7,17 +8,8 @@ import ITodo from 'src/app/models/ITodo';
   styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent implements OnInit {
-  @Input() tasks: ITodo[] = [];
-  @Output() taskEdit = new EventEmitter<ITodo>();
-  @Output() taskDelete = new EventEmitter<ITodo>();
-  constructor() {}
+  constructor(public taskService:TaskService) {}
 
   ngOnInit(): void {}
 
-  onSelectEdit(todo: ITodo) {
-    this.taskEdit.emit(todo);
-  }
-  onSelectDelete(todo: ITodo) {
-    this.taskDelete.emit(todo);
-  }
 }

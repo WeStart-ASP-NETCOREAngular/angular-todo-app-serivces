@@ -1,9 +1,7 @@
-<ul *ngIf="tasks.length !== 0; else noTasks" class="list-group">
+<ul *ngIf="taskService.tasks.length !== 0; else noTasks" class="list-group">
   <app-todo-item
-    *ngFor="let task of tasks"
+    *ngFor="let task of taskService.tasks"
     [task]="task"
-    (taskEdit)="onSelectEdit($event)"
-    (taskDelete)="onSelectDelete($event)"
   ></app-todo-item>
 </ul>
 <ng-template #noTasks>
