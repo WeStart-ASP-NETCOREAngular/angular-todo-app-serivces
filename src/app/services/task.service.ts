@@ -1,8 +1,12 @@
 import ITodo from '../models/ITodo';
 import { v4 as uuidv4 } from 'uuid';
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { LoggerService } from './logger.service';
 
+
+@Injectable()
 export class TaskService {
+  constructor(private loggerService: LoggerService) {}
   tasks: ITodo[] = [
     {
       id: uuidv4(),
@@ -20,16 +24,19 @@ export class TaskService {
 
   addTask(toDo: ITodo) {
     this.tasks.push(toDo);
+    this.loggerService.logIntoConsole("Task Added");
   }
   updateTask(toDo: ITodo) {
     var todoItem = this.tasks.find((x) => x.id == toDo.id);
     if (todoItem != null) todoItem.title = toDo.title;
+    this.loggerService.logIntoConsole("Task Updated");
   }
   deleteTask(todo: ITodo) {
-    console.log('onTaskDelete');
     var index = this.tasks.findIndex((x) => x.id == todo.id);
     if (index !== -1) {
       this.tasks.splice(index, 1);
     }
+    this.loggerService.logIntoConsole("Task Deleted");
+
   }
 }

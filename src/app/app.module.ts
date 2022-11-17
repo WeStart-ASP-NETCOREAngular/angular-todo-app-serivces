@@ -7,6 +7,8 @@ import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { FormsModule } from '@angular/forms';
+import { LoggerService } from './services/logger.service';
+import { TaskService } from './services/task.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     TodoItemComponent,
   ],
   imports: [BrowserModule, FormsModule],
-  providers: [],
+  providers: [TaskService,LoggerService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
